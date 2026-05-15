@@ -549,3 +549,36 @@ function renderAdminProducts() {
         </div>
     `).join('');
 }
+
+
+
+
+
+//PWA
+
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'block';
+
+  installBtn.addEventListener('click', () => {
+    installBtn.style.display = 'none';
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('Użytkownik zainstalował PWA');
+      } else {
+        console.log('Użytkownik odrzucił instalację');
+      }
+      deferredPrompt = null;
+    });
+  });
+});
+
+window.addEventListener('appinstalled', () => {
+  installBtn.style.display = 'none';
+  console.log('Aplikacja została pomyślnie zainstalowana!');
+});
