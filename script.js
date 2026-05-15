@@ -582,3 +582,12 @@ window.addEventListener('appinstalled', () => {
   installBtn.style.display = 'none';
   console.log('Aplikacja została pomyślnie zainstalowana!');
 });
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('Service Worker zarejestrowany!', reg))
+      .catch(err => console.log('Błąd rejestracji:', err));
+  });
+}
